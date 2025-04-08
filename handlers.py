@@ -7,9 +7,11 @@ from aiogram.types import Message
 import inline_kb as ikb
 import reply_kb as rkb
 from manager import add_key, delete_key, get_keys
+from middleware import AuthorizedUserMiddleware
 from reply_kb import ButtonNames
 
 router = Router()
+router.message.middleware(AuthorizedUserMiddleware())
 
 
 class ManageKeys(StatesGroup):
@@ -45,8 +47,6 @@ async def add_key_first(message: Message, state: FSMContext):
 
 @router.message(ManageKeys.add_key)
 async def add_key_second(message: Message, state: FSMContext):
-    # await state.update_data(name=message.text)
-    # data = await state.get_data()
     new_key = add_key(message.text)
     if not new_key:
         await message.answer("Ключ с таким именем уже существует")
@@ -66,8 +66,6 @@ async def delete_key_first(message: Message, state: FSMContext):
 
 @router.message(ManageKeys.delete_key)
 async def delete_key_second(message: Message, state: FSMContext):
-    # await state.update_data(name=message.text)
-    # data = await state.get_data()
     result = delete_key(message.text)
     if not result:
         await message.answer("Ключ не найден")
