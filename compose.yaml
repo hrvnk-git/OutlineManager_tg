@@ -3,6 +3,7 @@ services:
   outline_manager:
     container_name: outline_manager
     image: outline_manager
+    restart: unless-stopped
     build:
       context: .
     environment:
