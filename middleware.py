@@ -6,7 +6,7 @@ from aiogram.types import Message, TelegramObject
 from dotenv import load_dotenv
 
 load_dotenv()
-AUTHORIZED_USER_ID = os.getenv("AUTHORIZED_USER_ID")
+AUTHORIZED_USER_ID = int(os.getenv("AUTHORIZED_USER_ID"))
 
 
 class AuthorizedUserMiddleware(BaseMiddleware):
@@ -17,7 +17,7 @@ class AuthorizedUserMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         if isinstance(event, Message):
-            if event.from_user.id == int(AUTHORIZED_USER_ID):
+            if event.from_user.id == AUTHORIZED_USER_ID:
                 return await handler(event, data)
             else:
                 await event.answer(

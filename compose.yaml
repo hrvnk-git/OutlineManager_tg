@@ -1,10 +1,13 @@
 
 services:
   outline_manager:
+    container_name: outline_manager
+    image: outline_manager
     build:
       context: .
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - API_URL=${API_URL}
       - CERTSHA256=${CERTSHA256}
+      - AUTHORIZED_USER_ID=${AUTHORIZED_USER_ID}
 
